@@ -163,6 +163,14 @@ export const tbComentarios = db.define(
             type: DataTypes.DATE,
             allowNull: false,
         },
+        votoPositivo: {
+            type: DataTypes.INTEGER,
+            allowNull: false,
+        },
+        votoNegativo: {
+            type: DataTypes.INTEGER,
+            allowNull: false,
+        },
     },
     { freezeTableName: true }
 );
@@ -255,7 +263,7 @@ export const tbInteligenciaArtificial = db.define(
             type: DataTypes.STRING(500),
             allowNull: false,
         },
-        puntuacionIntArt: {
+        puntuacionGeneralIntArt: {
             type: DataTypes.FLOAT,
             allowNull: false,
         },
@@ -285,38 +293,106 @@ export const tbTagsIntArt = db.define(
     { freezeTableName: true }
 );
 
+export const tbUsuarioVotoInt = db.define(
+    "usuarioVotoInt",
+    {
+        idUsuarioVotoInt: {
+            type: DataTypes.INTEGER,
+            allowNull: false,
+            autoIncrement: true,
+            primaryKey: true,
+            unique: true,
+        },
+        idUsuario: {
+            type: DataTypes.INTEGER,
+            allowNull: false,
+        },
+        idIntArt: {
+            type: DataTypes.INTEGER,
+            allowNull: false,
+        },
+        puntuacionUsuario: {
+            type: DataTypes.INTEGER,
+            allowNull: false,
+        },
+    },
+    { freezeTableName: true }
+);
+
+export const tbUsuarioVotoComentario = db.define(
+    "usuarioVotoComentario",
+    {
+        idUsuarioVotoComentario: {
+            type: DataTypes.INTEGER,
+            allowNull: false,
+            autoIncrement: true,
+            primaryKey: true,
+            unique: true,
+        },
+        idUsuario: {
+            type: DataTypes.INTEGER,
+            allowNull: false,
+        },
+        idComentario: {
+            type: DataTypes.INTEGER,
+            allowNull: false,
+        },
+        votoUsuario: {
+            type: DataTypes.BOOLEAN,
+            allowNull: false,
+        },
+    },
+    { freezeTableName: true }
+);
+
 //Rol a Usuario
-tbRol.belongsTo(tbUsuarios, { foreignKey: { name: 'idRol' } });
-tbUsuarios.hasMany(tbRol, { foreignKey: { name: 'idRol' } });
+tbUsuarios.belongsTo(tbRol, { foreignKey: { name: 'idRol' } });
+tbRol.hasMany(tbUsuarios, { foreignKey: { name: 'idRol' } });
 
 //Usuario a Comentario
-tbUsuarios.belongsTo(tbComentarios, { foreignKey: { name: 'idUsuario' } });
-tbComentarios.hasMany(tbUsuarios, { foreignKey: { name: 'idUsuario' } });
+tbComentarios.belongsTo(tbUsuarios, { foreignKey: { name: 'idUsuario' } });
+tbUsuarios.hasMany(tbComentarios, { foreignKey: { name: 'idUsuario' } });
+
+//Usuario a TablaIntermedia Usuario Comentario
+tbUsuarioVotoComentario.belongsTo(tbUsuarios, { foreignKey: { name: 'idUsuario' } });
+tbUsuarios.hasMany(tbUsuarioVotoComentario, { foreignKey: { name: 'idUsuario' } });
+
+//Comentario a TablaIntermedia Usuario Comentario
+tbUsuarioVotoComentario.belongsTo(tbComentarios, { foreignKey: { name: 'idComentario' } });
+tbComentarios.hasMany(tbUsuarioVotoComentario, { foreignKey: { name: 'idComentario' } });
 
 //Comentario a Debate
-tbComentarios.belongsTo(tbDebates, { foreignKey: { name: 'idComentario' } });
-tbDebates.hasMany(tbComentarios, { foreignKey: { name: 'idComentario' } });
+tbDebates.belongsTo(tbComentarios, { foreignKey: { name: 'idComentario' } });
+tbComentarios.hasMany(tbDebates, { foreignKey: { name: 'idComentario' } });
 
 //Tema a Debate
-tbTemas.belongsTo(tbDebates, { foreignKey: { name: 'idTema' } });
-tbDebates.hasMany(tbTemas, { foreignKey: { name: 'idTema' } });
+tbDebates.belongsTo(tbTemas, { foreignKey: { name: 'idTema' } });
+tbTemas.hasMany(tbDebates, { foreignKey: { name: 'idTema' } });
+
+//Usuario a TablaIntermedia Usuario Inteligencia Artificial
+tbUsuarioVotoInt.belongsTo(tbUsuarios, { foreignKey: { name: 'idUsuario' } });
+tbUsuarios.hasMany(tbUsuarioVotoInt, { foreignKey: { name: 'idUsuario' } });
 
 //Inteligencia Artificial a Debate
-tbInteligenciaArtificial.belongsTo(tbDebates, { foreignKey: { name: 'idIntArt' } });
-tbDebates.hasMany(tbInteligenciaArtificial, { foreignKey: { name: 'idIntArt' } });
+tbDebates.belongsTo(tbInteligenciaArtificial, { foreignKey: { name: 'idIntArt' } });
+tbInteligenciaArtificial.hasMany(tbDebates, { foreignKey: { name: 'idIntArt' } });
 
 //Inteligencia Artificial a Imagen
-tbInteligenciaArtificial.belongsTo(tbImagenIntArt, { foreignKey: { name: 'idIntArt' } });
-tbImagenIntArt.hasMany(tbInteligenciaArtificial, { foreignKey: { name: 'idIntArt' } });
+tbImagenIntArt.belongsTo(tbInteligenciaArtificial, { foreignKey: { name: 'idIntArt' } });
+tbInteligenciaArtificial.hasMany(tbImagenIntArt, { foreignKey: { name: 'idIntArt' } });
 
 //Inteligencia Artificial a Ejemplo
-tbInteligenciaArtificial.belongsTo(tbEjemploIntArt, { foreignKey: { name: 'idIntArt' } });
-tbEjemploIntArt.hasMany(tbInteligenciaArtificial, { foreignKey: { name: 'idIntArt' } });
+tbEjemploIntArt.belongsTo(tbInteligenciaArtificial, { foreignKey: { name: 'idIntArt' } });
+tbInteligenciaArtificial.hasMany(tbEjemploIntArt, { foreignKey: { name: 'idIntArt' } });
+
+//Inteligencia Artificial a TablaIntermedia Usuario Inteligencia Artificial
+tbUsuarioVotoInt.belongsTo(tbInteligenciaArtificial, { foreignKey: { name: 'idIntArt' } });
+tbInteligenciaArtificial.hasMany(tbUsuarioVotoInt, { foreignKey: { name: 'idIntArt' } });
 
 //Inteligencia Artificial a TablaIntermedia Tag Inteligencia Artificial
-tbInteligenciaArtificial.belongsTo(tbTagsIntArt, { foreignKey: { name: 'idIntArt' } });
-tbTagsIntArt.hasMany(tbInteligenciaArtificial, { foreignKey: { name: 'idIntArt' } });
+tbTagsIntArt.belongsTo(tbInteligenciaArtificial, { foreignKey: { name: 'idIntArt' } });
+tbInteligenciaArtificial.hasMany(tbTagsIntArt, { foreignKey: { name: 'idIntArt' } });
 
 //Tag a TablaIntermedia Tag Inteligencia Artificial
-tbTags.belongsTo(tbTagsIntArt, { foreignKey: { name: 'idTag' } });
-tbTagsIntArt.hasMany(tbTags, { foreignKey: { name: 'idTag' } });
+tbTagsIntArt.belongsTo(tbTags, { foreignKey: { name: 'idTag' } });
+tbTags.hasMany(tbTagsIntArt, { foreignKey: { name: 'idTag' } });
