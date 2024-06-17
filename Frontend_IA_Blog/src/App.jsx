@@ -7,6 +7,7 @@ import NavbarPag from './components/Nav/NavbarPag'
 import HomePag from './components/Home/HomePag'
 import PostIAPag from './components/Blog/ClickPostIAPag'
 import BlogIAPag from "./components/Blog/BlogIAPag"
+import NewPost from "./components/NewPost/NewPost"
 // import PostCard from "./components/Cart/PostCart"
 const getIAPosts = [
   {
@@ -100,6 +101,10 @@ const router = createBrowserRouter([
         path: '/login',
         element: <LoginPag/>
         
+      },
+      {
+        path: '/NewPost',
+        element:<NewPost/>
       },
       {
         path: '/registro',

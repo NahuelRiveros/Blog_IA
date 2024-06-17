@@ -34,7 +34,7 @@ function FooterPag() {
               </li>
               <li>
                 <Link
-                  to="/NuevoBlog"
+                  to="/NewPost"
                   className="bg-green-400 hover:bg-green-500 text-white font-bold py-2 px-4 rounded-lg flex items-center gap-2 transition-all duration-300 ease-in-out transform hover:scale-105"
                 >
                   Nuevo Post <CgAdd className="text-xl" />
