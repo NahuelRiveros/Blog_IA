@@ -72,7 +72,7 @@ function NavbarPag() {
       <div className="container mx-auto flex justify-between items-center py-4 px-8 lg:px-0">
         <div>
           <Link to="/">
-            <img src={logo} alt="Logo"  className="w-16 rounded-full border-2 border-green-300 hover:border-coral-300 hover:transform hover:scale-125 transition duration-300 ease-in-out" />
+            <img src={logo} alt="Logo"  className="w-16 rounded-full border-2 border-white hover:border-coral-300 hover:transform hover:scale-125 transition duration-300 ease-in-out" />
           </Link>
         </div>
         <div className="hidden lg:flex items-center space-x-12">
