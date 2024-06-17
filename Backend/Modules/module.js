@@ -151,6 +151,10 @@ export const tbComentarios = db.define(
             type: DataTypes.INTEGER,
             allowNull: false,
         },
+        idDebate: {
+            type: DataTypes.INTEGER,
+            allowNull: false,
+        },
         tituloComentario: {
             type: DataTypes.STRING(200),
             allowNull: false,
@@ -184,10 +188,6 @@ export const tbDebates = db.define(
             autoIncrement: true,
             primaryKey: true,
             unique: true,
-        },
-        idComentario: {
-            type: DataTypes.INTEGER,
-            allowNull: false,
         },
         idTema: {
             type: DataTypes.INTEGER,
@@ -314,6 +314,10 @@ export const tbUsuarioVotoInt = db.define(
         puntuacionUsuario: {
             type: DataTypes.INTEGER,
             allowNull: false,
+            validate: {
+                min: 0,
+                max: 5
+            }
         },
     },
     { freezeTableName: true }
@@ -361,9 +365,9 @@ tbUsuarios.hasMany(tbUsuarioVotoComentario, { foreignKey: { name: 'idUsuario' } 
 tbUsuarioVotoComentario.belongsTo(tbComentarios, { foreignKey: { name: 'idComentario' } });
 tbComentarios.hasMany(tbUsuarioVotoComentario, { foreignKey: { name: 'idComentario' } });
 
-//Comentario a Debate
-tbDebates.belongsTo(tbComentarios, { foreignKey: { name: 'idComentario' } });
-tbComentarios.hasMany(tbDebates, { foreignKey: { name: 'idComentario' } });
+//Debate a Comentario
+tbComentarios.belongsTo(tbDebates, { foreignKey: { name: 'idDebate' } });
+tbDebates.hasMany(tbComentarios, { foreignKey: { name: 'idDebate' } });
 
 //Tema a Debate
 tbDebates.belongsTo(tbTemas, { foreignKey: { name: 'idTema' } });
@@ -396,3 +400,51 @@ tbInteligenciaArtificial.hasMany(tbTagsIntArt, { foreignKey: { name: 'idIntArt' 
 //Tag a TablaIntermedia Tag Inteligencia Artificial
 tbTagsIntArt.belongsTo(tbTags, { foreignKey: { name: 'idTag' } });
 tbTags.hasMany(tbTagsIntArt, { foreignKey: { name: 'idTag' } });
+
+tbUsuarioVotoInt.addHook('afterCreate', async (voto, options) => {
+    console.log("SE ESTA HACIENDO EL TRIGGER")
+    try {
+        const ultimoVotoId = await tbUsuarioVotoInt.max("idUsuarioVotoInt");
+        const ultimoVoto = await tbUsuarioVotoInt.findByPk(ultimoVotoId)
+        const iaVotada = await tbInteligenciaArtificial.findByPk(ultimoVoto.idIntArt);
+        const AllComentIA = await tbUsuarioVotoInt.findAll({where:{idIntArt: ultimoVoto.idIntArt}})
+        const tamaño = AllComentIA.length
+        const puntuacionFinal = ((iaVotada.puntuacionGeneralIntArt * (tamaño - 1)) + ultimoVoto.puntuacionUsuario) / tamaño
+        const actualizarPuntuacion = await iaVotada.update({puntuacionGeneralIntArt: puntuacionFinal})
+        return(console.log("Se ha realizado con exito"))
+    } catch (err) {
+        console.error(err);
+    }
+  });
+
+//   tbComentarioPelicula.addHook('afterCreate', async (comentario, options) => {
+//     try {
+//         const ultimoComentarioId = await tbComentarioPelicula.max("idComentarioPelicula");
+//         const ultimoComentario = await tbComentarioPelicula.findByPk(ultimoComentarioId);
+//         const pelicula = await tbPelicula.findByPk(ultimoComentario.idPelicula)
+//         const peliculaRequest = await tbComentarioPelicula.findAll({where:{idPelicula: ultimoComentario.idPelicula}})
+//         const tamaño = peliculaRequest.length
+//         const ultimoComentarioPuntuacion = await tbComentario.findByPk(ultimoComentario.idComentario)
+//         const puntuacionFinal = ((pelicula.puntuacionGeneral * (tamaño - 1)) + ultimoComentarioPuntuacion.puntuacion) / tamaño
+//         const actualizarPuntuacion = await pelicula.update({puntuacionGeneral: puntuacionFinal})
+//         return(console.log("Se ha realizado con exito"))
+//     } catch (err) {
+//         console.error(err);
+//     }
+//   });
+
+
+
+
+// const datosRoles = [
+//     { idrol:1, nombreRol: 'Administrador' }, { idrol:2, nombreRol: 'Usuario' }
+// ]
+// export const crearRoles = tbRol.bulkCreate(datosRoles);
+// const datosTemas = [
+//     { nombreTema: 'Ética' }, { nombreTema: 'Sesgo' }, { nombreTema: 'Beneficios' }, { nombreTema: 'Polémica' }, { nombreTema: 'Futuro' }
+// ]
+// export const crearTemas = tbTemas.bulkCreate(datosTemas);
+// const datosTags = [
+//     { nombreTag: 'Artificial Intelligence' }, { nombreTag: 'Robotics' }, { nombreTag: 'Machine Learning' }, { nombreTag: 'Autonomous' }, { nombreTag: 'Problem Solving' }, { nombreTag: 'Deep Learning' }, { nombreTag: 'Cybernetics' }, { nombreTag: 'Neural Networks' }
+// ]
+// export const crearTags = tbTags.bulkCreate(datosTags);

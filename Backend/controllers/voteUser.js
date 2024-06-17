@@ -1,4 +1,4 @@
-import { VoteInt } from "../moduloVote/voteInt.js";
+import { tbUsuarioVotoInt } from "../Modules/module.js";
 
 // POST /api/posts/:postId/vote
 export const createVote = async (req, res) => {
@@ -7,12 +7,12 @@ export const createVote = async (req, res) => {
     const { rating } = req.body;
 
     // Verifica si el usuario ya ha votado por este post
-    const existingVote = await VoteInt.findOne({ postId, userId: req.user.id });
+    const existingVote = await tbUsuarioVotoInt.findOne({ postId, userId: req.user.id });
     if (existingVote) {
       return res.status(400).json({ message: 'Ya has votado por este post' });
     }
 
-    const newVote = await Vote.create({ postId, userId: req.user.id, rating });
+    const newVote = await tbUsuarioVotoInt.create({ postId, userId: req.user.id, rating });
     res.status(201).json({ message: 'Voto registrado correctamente', vote: newVote });
   } catch (err) {
     console.error(err);
@@ -24,7 +24,7 @@ export const createVote = async (req, res) => {
 export const getPostVotes = async (req, res) => {
   try {
     const { postId } = req.params;
-    const votes = await Vote.findAll({ where: { postId } });
+    const votes = await tbUsuarioVotoInt.findAll({ where: { postId } });
     // Calcula el total de votos, promedio, etc.
     // ... 
     res.status(200).json(votes); // O devuelve los datos que necesitas

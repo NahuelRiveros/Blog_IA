@@ -15,7 +15,7 @@ const db = new Sequelize(
 
 async function createTables() {
     try { 
-        await db.sync({ alter: true }); 
+        await db.sync({ alter: true }); //force alter
         console.log("Tablas creadas en la base de datos.");
     } catch (error) {
         console.error("Error al crear las tablas:", error);
@@ -24,8 +24,6 @@ async function createTables() {
     //     db.close();
     // }
 }; 
-
-db.sync({force: true});
 
 createTables();
 
