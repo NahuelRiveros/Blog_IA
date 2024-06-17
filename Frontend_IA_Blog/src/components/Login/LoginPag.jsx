@@ -92,7 +92,7 @@ function LoginPag() {
                 <button
                   type="submit"
                   disabled={isSubmitting}
-                  className="bg-blue-500 text-white py-2 px-4 rounded-md hover:bg-blue-600 transition duration-300"
+                  className="bg-green-400 text-white py-2 px-4 rounded-md hover:bg-green-600 transition duration-300"
                 >
                   Login
                 </button>
@@ -102,7 +102,7 @@ function LoginPag() {
         </Formik>
 
         <div className="mt-4 flex justify-center">
-          <Link to={"/registro"} className="text-blue-500 hover:text-blue-700 text-sm transition-all duration-100 hover:scale-110">
+          <Link to={"/registro"} className=" hover:text-green-600 text-sm transition-all duration-100 hover:scale-110">
             Register
           </Link>
         </div>
