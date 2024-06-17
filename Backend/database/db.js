@@ -1,10 +1,10 @@
 import Sequelize from "sequelize";
 
 const db = new Sequelize(
-    "PeliculasBlog", 
+    "IABlog", 
     "postgres",
-    // "Hola1234",
-    "123456789",
+    "Hola1234",
+    //"123456789",
     {
     host: "localhost",
     dialect:
@@ -14,7 +14,7 @@ const db = new Sequelize(
 //Sincronizar base de datos
 
 async function createTables() {
-    try {
+    try { 
         await db.sync({ alter: true }); 
         console.log("Tablas creadas en la base de datos.");
     } catch (error) {
@@ -25,7 +25,7 @@ async function createTables() {
     // }
 }; 
 
-db.sync({alter: true});
+db.sync({force: true});
 
 createTables();
 
