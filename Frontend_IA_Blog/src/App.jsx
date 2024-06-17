@@ -5,7 +5,7 @@ import RegistrationPag from './components/Login/RegistrationPag'
 import LoginPag from './components/Login/LoginPag'
 import NavbarPag from './components/Nav/NavbarPag'
 import HomePag from './components/Home/HomePag'
-import PostIAPag from './components/Blog/PostIAPag'
+import PostIAPag from './components/Blog/ClickPostIAPag'
 import BlogIAPag from "./components/Blog/BlogIAPag"
 // import PostCard from "./components/Cart/PostCart"
 const getIAPosts = [

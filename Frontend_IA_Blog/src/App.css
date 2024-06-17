@@ -1,0 +1,18 @@
+.rating-container {
+    display: flex;
+    align-items: center;
+    font-size: 2rem;
+  }
+  
+  .star {
+    cursor: pointer;
+    color: #ccc; /* Color de la estrella vacía */
+  }
+  
+  .star.filled {
+    color: gold; /* Color de la estrella llena */
+  }
+  
+  .rating-value {
+    margin-left: 8px;
+  }

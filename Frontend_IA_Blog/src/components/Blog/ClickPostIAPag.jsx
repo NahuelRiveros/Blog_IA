@@ -3,6 +3,8 @@ import { useLocation, useNavigate } from "react-router-dom";
 import { IoReturnDownBackOutline } from "react-icons/io5";
 import { FaStar, FaStarHalfAlt } from "react-icons/fa";
 import { AiOutlineVideoCamera, AiOutlineLogin } from "react-icons/ai"; // Importa los iconos de Ant Design Icons
+import CommentSection from "../comment/Comment";
+import PostVote from "../Vote/PostVote";
 
 const PostIAPag = () => {
   const navigate = useNavigate();
@@ -91,34 +93,52 @@ const PostIAPag = () => {
                   <strong>Año de lanzamiento:</strong> {post.anoDeLanzamiento}
                 </li>
               </ul>
+              <div className="mb-4 flex items-center justify-center gap-3">
+                    <h2 className="text-2xl font-semibold text-gray-800 mb-2">
+                      Vota por esta publicación:
+                    </h2>
+                    <PostVote
+                      postId={post.id}
+                      initialLikes={post.likes}
+                      initialDislikes={post.dislikes}
+                    />
+                  </div>
             </div>
             {/* buttons */}
             <div className="flex justify-center items-center mt-8 space-x-4">
-  <button
-    className="bg-red-600 hover:bg-red-700 text-white font-semibold py-2 px-6 rounded-lg shadow-md transition duration-300 flex items-center justify-center"
-    onClick={() => window.open(post.linkVideo, "_blank", "noopener,noreferrer")}
-    title="Ver video"
-  >
-    <AiOutlineVideoCamera className="text-lg mr-2" />
-    Video
-  </button>
-  <button
-    className="bg-blue-600 hover:bg-blue-700 text-white font-semibold py-2 px-6 rounded-lg shadow-md transition duration-300 flex items-center justify-center"
-    onClick={() => window.open(post.linkDeAcceso, "_blank", "noopener,noreferrer")}
-    title="Acceder"
-  >
-    <AiOutlineLogin className="text-lg mr-2" />
-    Link
-  </button>
-  <button
-    className="bg-gray-700 hover:bg-gray-800 text-white font-semibold py-2 px-6 rounded-lg shadow-md transition duration-300 flex items-center justify-center"
-    onClick={backToBlog}
-    title="Regresar al Blog"
-  >
-    <IoReturnDownBackOutline className="text-lg mr-2" />
-    Regresar
-  </button>
-</div>
+              <button
+                className="bg-red-600 hover:bg-red-700 text-white font-semibold py-2 px-6 rounded-lg shadow-md transition duration-300 flex items-center justify-center"
+                onClick={() =>
+                  window.open(post.linkVideo, "_blank", "noopener,noreferrer")
+                }
+                title="Ver video"
+              >
+                <AiOutlineVideoCamera className="text-lg mr-2" />
+                Video
+              </button>
+              <button
+                className="bg-blue-600 hover:bg-blue-700 text-white font-semibold py-2 px-6 rounded-lg shadow-md transition duration-300 flex items-center justify-center"
+                onClick={() =>
+                  window.open(
+                    post.linkDeAcceso,
+                    "_blank",
+                    "noopener,noreferrer"
+                  )
+                }
+                title="Acceder"
+              >
+                <AiOutlineLogin className="text-lg mr-2" />
+                Link
+              </button>
+              <button
+                className="bg-gray-700 hover:bg-gray-800 text-white font-semibold py-2 px-6 rounded-lg shadow-md transition duration-300 flex items-center justify-center"
+                onClick={backToBlog}
+                title="Regresar al Blog"
+              >
+                <IoReturnDownBackOutline className="text-lg mr-2" />
+                Regresar
+              </button>
+            </div>
 
             {/* buttons */}
           </div>
@@ -130,6 +150,7 @@ const PostIAPag = () => {
         </h3>
         <div className="bg-gray-100 p-4 rounded-b-lg">
           {/* Aquí puedes insertar el componente de comentarios */}
+          <CommentSection />
         </div>
       </div>
     </div>
