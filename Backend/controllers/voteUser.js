@@ -1,4 +1,4 @@
-import {Vote}  from "../moduloVote/vote.js";
+import { VoteInt } from "../moduloVote/voteInt.js";
 
 // POST /api/posts/:postId/vote
 export const createVote = async (req, res) => {
@@ -7,7 +7,7 @@ export const createVote = async (req, res) => {
     const { rating } = req.body;
 
     // Verifica si el usuario ya ha votado por este post
-    const existingVote = await Vote.findOne({ postId, userId: req.user.id }); 
+    const existingVote = await VoteInt.findOne({ postId, userId: req.user.id });
     if (existingVote) {
       return res.status(400).json({ message: 'Ya has votado por este post' });
     }
