@@ -25,7 +25,7 @@ function Home() {
 
   return (
     <div className="bg-gray-100 min-h-screen">
-      <header className="bg-blue-500 text-white py-8">
+      <header className="bg-gradient-to-r from-blue-100 via-green-100 to-gray-100 text-gray-700 py-8">
         <div className="container mx-auto text-center">
           <h1 className="text-4xl font-bold mb-2">Bienvenido a Mi Blog</h1>
           <p className="text-lg">Explora artículos sobre tecnología, desarrollo web y más.</p>

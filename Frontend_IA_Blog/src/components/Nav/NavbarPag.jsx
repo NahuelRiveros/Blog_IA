@@ -3,6 +3,7 @@ import { Link, useNavigate } from "react-router-dom";
 import { FaTimes, FaSearch } from "react-icons/fa";
 import { CiMenuFries } from "react-icons/ci";
 import { CgAdd } from "react-icons/cg";
+import { logo } from "../../assets/img";
 import axios from 'axios';
 
 function NavbarPag() {
@@ -71,7 +72,7 @@ function NavbarPag() {
       <div className="container mx-auto flex justify-between items-center py-4 px-8 lg:px-0">
         <div>
           <Link to="/">
-            <img src="../src/assets/logoImagen.png" alt="Logo" className="w-16 rounded-full border-2 border-gray-700 hover:border-coral-300 transition duration-300 ease-in-out" />
+            <img src={logo} alt="Logo"  className="w-16 rounded-full border-2 border-green-300 hover:border-coral-300 hover:transform hover:scale-125 transition duration-300 ease-in-out" />
           </Link>
         </div>
         <div className="hidden lg:flex items-center space-x-12">
@@ -80,7 +81,7 @@ function NavbarPag() {
               <Link to="/" className="hover:text-green-600 transition duration-300 ease-in-out">Home</Link>
             </li>
             <li>
-              <Link to="/software" className="hover:text-green-600 transition duration-300 ease-in-out">Software AI</Link>
+              <Link to="/blog" className="hover:text-green-600 transition duration-300 ease-in-out">Publicaciones AI</Link>
             </li>
             <li>
               <Link to="/clasificacion" className="hover:text-green-600 transition duration-300 ease-in-out">Clasificación</Link>
