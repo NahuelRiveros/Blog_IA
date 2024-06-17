@@ -24,6 +24,14 @@ export const tbComentarios = db.define(
             type: DataTypes.DATE,
             allowNull: false,
         },
+        votoPositivo: {
+            type:DataTypes.INTEGER,
+            allowNull: false
+        },
+        votoNegativo: {
+            type:DataTypes.INTEGER,
+            allowNull: false
+        }
     },
     { freezeTableName: true }
 );
