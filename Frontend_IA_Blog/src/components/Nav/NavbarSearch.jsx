@@ -4,14 +4,16 @@ import { BsSearch } from "react-icons/bs";
 import { BsTrash } from "react-icons/bs";
 
 const Search = ({ searchTerm, handleSearchChange, searchBy, setSearchBy, selectedTag, setSelectedTag }) => {
+  // Actualización de los tags
   const tags = [
-    { id: 1, name: "Aprendizaje Automático" },
-    { id: 2, name: "Procesamiento del Lenguaje Natural" },
-    { id: 3, name: "Visión Artificial" },
-    { id: 4, name: "Robótica" },
-    { id: 5, name: "Ética de la IA" },
-    { id: 6, name: "IA en la Salud" },
-    { id: 7, name: "IA en el Negocio" },
+    { id: 1, name: "Artificial Intelligence" },
+    { id: 2, name: "Robotics" },
+    { id: 3, name: "Machine Learning" },
+    { id: 4, name: "Autonomous" },
+    { id: 5, name: "Problem Solving" },
+    { id: 6, name: "Deep Learning" },
+    { id: 7, name: "Cybernetics" },
+    { id: 8, name: "Neural Networks" },
   ];
 
   const [showTagList, setShowTagList] = useState(false);
@@ -28,6 +30,7 @@ const Search = ({ searchTerm, handleSearchChange, searchBy, setSearchBy, selecte
   };
 
   const handleSearchByChange = (event) => {
+    
     const selectedValue = event.target.value;
     setSearchBy(selectedValue); // Actualiza el estado de searchBy
     if (selectedValue !== "tag") {
@@ -87,12 +90,11 @@ const Search = ({ searchTerm, handleSearchChange, searchBy, setSearchBy, selecte
           </div>
           {selectedTag && (
             <button
-            className="flex items-center mt-2 text-red-500 bg-white hover:bg-red-500 hover:text-white border border-red-500 hover:border-transparent rounded-md px-4 py-2 transition duration-300 ease-in-out"
-            onClick={() => handleTagClick(selectedTag)}
-          >
-            <BsTrash className="mr-2" /> Deseleccionar Etiqueta
-          </button>
-          
+              className="flex items-center mt-2 text-red-500 bg-white hover:bg-red-500 hover:text-white border border-red-500 hover:border-transparent rounded-md px-4 py-2 transition duration-300 ease-in-out"
+              onClick={() => handleTagClick(selectedTag)}
+            >
+              <BsTrash className="mr-2" /> Deseleccionar Etiqueta
+            </button>
           )}
         </div>
       )}
