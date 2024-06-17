@@ -47,12 +47,13 @@ const BlogIAPag = () => {
   }, [searchTerm, searchBy, selectedTag, loadMovies]);
 
   const handleDetalles = (pMovie) => {
-    let direccion = String(pMovie.nombrePelicula)
+    console.log(pMovie)
+    let direccion = String(pMovie.nombre)
       .toLowerCase()
       .split(" ")
       .join("");
 
-    navigate(`/pelicula/${direccion}`, {
+    navigate(`/Publication/${direccion}`, {
       state: { item: pMovie },
     });
   };
