@@ -1,7 +1,7 @@
-import {Vote} from '../moduloVote/vote.js'
+import {Vote}  from "../moduloVote/vote.js";
 
 // POST /api/posts/:postId/vote
-exports.createVote = async (req, res) => {
+export const createVote = async (req, res) => {
   try {
     const { postId } = req.params;
     const { rating } = req.body;
@@ -21,7 +21,7 @@ exports.createVote = async (req, res) => {
 };
 
 // GET /api/posts/:postId/votes (opcional)
-exports.getPostVotes = async (req, res) => {
+export const getPostVotes = async (req, res) => {
   try {
     const { postId } = req.params;
     const votes = await Vote.findAll({ where: { postId } });

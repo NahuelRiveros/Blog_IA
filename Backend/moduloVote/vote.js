@@ -1,8 +1,9 @@
 import { Sequelize, DataTypes } from 'sequelize';
-
+import db from '../database/db';
 // Define el modelo de datos 'Vote'
-module.exports = (sequelize, DataTypes) => {
-  const Vote = sequelize.define('Vote', {
+
+  export const Vote = db.define('Vote', 
+    {
     postId: {
       type: DataTypes.INTEGER,
       allowNull: false,
@@ -34,6 +35,3 @@ module.exports = (sequelize, DataTypes) => {
   // Define asociaciones si es necesario
   // Vote.belongsTo(Post); // Asocia Vote con Post
   // Vote.belongsTo(User); // Asocia Vote con User
-
-  return Vote;
-};
