@@ -1,6 +1,7 @@
 import React from "react";
 import { Formik, Form, Field, ErrorMessage } from "formik";
 import { useNavigate, Link } from 'react-router-dom';
+import axios from 'axios';
 import * as Yup from 'yup'; // Importamos yup para validación
 
 function RegistrationPag() {
@@ -27,9 +28,11 @@ function RegistrationPag() {
   const handleSubmit = async (values, { setSubmitting }) => {
     try {
       // Aquí podrías hacer la llamada a la API con axios
-      console.log('Valores a enviar:', values);
-      // Redirige a la página de inicio o al perfil después de registrar
+      const  resRegistratio = await axios.post('http://localhost:8000/api/register', values);
       
+      alert(resRegistratio.data.msg)
+      // Redirige a la página de inicio o al perfil después de registrar
+      navigate("/")
       setSubmitting(false);
     } catch (error) {
       console.error('Error al registrar:', error);

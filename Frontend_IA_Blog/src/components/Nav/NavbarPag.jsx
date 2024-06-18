@@ -22,18 +22,22 @@ function NavbarPag() {
 
   const fetchUserName = async () => {
     try {
-      const response = await axios.get('http://localhost:8000/api/user', {
+      
+      const userId = localStorage.getItem('id');
+      const response = await axios.get(`http://localhost:8000/api/getUser/${userId}`, {
         headers: { Authorization: `Bearer ${token}` }
       });
-      setUserName(response.data.username);
+      setUserName(response.data.msgUser);
+      console.log("hola", response.data)
     } catch (error) {
       console.error('Error al obtener el nombre de usuario:', error);
     }
   };
-
+  
   useEffect(() => {
     if (token) {
       fetchUserName();
+      console.log(userName)
     }
   }, [token]);
 
@@ -49,19 +53,19 @@ function NavbarPag() {
           <Link to="/" onClick={closeMenu} className="hover:text-green-600 transition-all duration-300 ease-in-out">Home</Link>
         </li>
         <li className="border-b border-gray-300">
-          <Link to="/software" onClick={closeMenu} className="hover:text-green-600 transition-all duration-300 ease-in-out">Software AI</Link>
+          <Link to="/blog" onClick={closeMenu} className="hover:text-green-600 transition-all duration-300 ease-in-out">Publicaciones AI</Link>
         </li>
         <li className="border-b border-gray-300">
-          <Link to="/clasificacion" onClick={closeMenu} className="hover:text-green-600 transition-all duration-300 ease-in-out">Clasificación</Link>
+          <Link to="/" onClick={closeMenu} className="hover:text-green-600 transition-all duration-300 ease-in-out">Clasificación</Link>
         </li>
         <li className="border-b border-gray-300">
-          <Link to="/foros" onClick={closeMenu} className="hover:text-green-600 transition-all duration-300 ease-in-out">Foros</Link>
+          <Link to="/" onClick={closeMenu} className="hover:text-green-600 transition-all duration-300 ease-in-out">Foros</Link>
         </li>
         <li className="border-b border-gray-300">
-          <Link to="/perfil" onClick={closeMenu} className="hover:text-green-600 transition-all duration-300 ease-in-out">Perfil</Link>
+          <Link to="/" onClick={closeMenu} className="hover:text-green-600 transition-all duration-300 ease-in-out">Perfil</Link>
         </li>
         <li>
-          <Link to="/estadisticas" onClick={closeMenu} className="hover:text-green-600 transition-all duration-300 ease-in-out">Estadísticas</Link>
+          <Link to="/" onClick={closeMenu} className="hover:text-green-600 transition-all duration-300 ease-in-out">Estadísticas</Link>
         </li>
       </ul>
     </div>
@@ -84,17 +88,16 @@ function NavbarPag() {
               <Link to="/blog" className="hover:text-green-600 transition duration-300 ease-in-out">Publicaciones AI</Link>
             </li>
             <li>
-              <Link to="/clasificacion" className="hover:text-green-600 transition duration-300 ease-in-out">Clasificación</Link>
+              <Link to="/" className="hover:text-green-600 transition duration-300 ease-in-out">Clasificación</Link>
             </li>
             <li>
-              <Link to="/foros" className="hover:text-green-600 transition duration-300 ease-in-out">Foros</Link>
+              <Link to="/" className="hover:text-green-600 transition duration-300 ease-in-out">Foros</Link>
             </li>
             <li>
-              <Link to="/perfil" className="hover:text-green-600 transition duration-300 ease-in-out">Perfil</Link>
+              <Link to="/" className="hover:text-green-600 transition duration-300 ease-in-out">Perfil</Link>
             </li>
             <li>
-              <Link to="/estadisticas" className="hover:text-green-600 transition duration-300 ease-in-out 
-              ">Estadísticas</Link>
+              <Link to="/" className="hover:text-green-600 transition duration-300 ease-in-out">Estadísticas</Link>
             </li>
           </ul>
           <div className="flex items-center space-x-6">

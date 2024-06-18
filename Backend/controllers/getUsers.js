@@ -1,15 +1,22 @@
-import { users } from '../controllers/Login.js'; // Importa el array de usuarios
+import { tbUsuarios } from '../Modules/module.js';
 
-const getUser = (req, res) => {
-  const user = users.find(user => user.id === req.userId);
+const getUser = async (req, res) => {
+  
 
-  if (!user) {
-    return res.status(404).json({ message: 'Usuario no encontrado' });
+  const userID = req.params.id
+  try {
+
+    const user = await tbUsuarios.findOne({ where: {idUsuario : userID }});
+    if (!user) {
+      return res.status(404).json({ message: 'Usuario no encontrado' });
+    }
+    res.json({ msgUser : user.nombreUsuario})
+    
+  } catch(error) {
+    console.error("error")
+    res.status(500).json({msg:"Error"})
   }
-
-  console.log(user.username + " getUser Line 10")//BORAR 
-
-  res.json({ username: user.username });
-};
+ 
+}
 
 export default getUser;

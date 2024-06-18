@@ -13,7 +13,7 @@ import {createVote} from '../controllers/voteUser.js';
 const routerBlog = express.Router();
 
 routerBlog.post('/login', Login)
-routerBlog.get('/user',authenticateToken, getUser);
+routerBlog.get('/getUser/:id',authenticateToken, getUser);
 routerBlog.get('/obtainIntArt/:id',authenticateToken, getIntArt);
 
 routerBlog.post('/register',registroUsuario)

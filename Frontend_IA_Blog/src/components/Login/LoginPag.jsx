@@ -14,7 +14,8 @@ function LoginPag() {
     try {
       console.log(values)
       const response = await axios.post('http://localhost:8000/api/login', values); // Reemplaza '/api/login' con la ruta correcta de tu backend
-      localStorage.setItem('token', response.data.token); // Almacena el token
+      localStorage.setItem('token', response.data.token);
+      localStorage.setItem('id', response.data.id); // Almacena el token
       navigate('/'); // Redirige al usuario
     } catch (error) {
       setError(error.response.data.message || 'Error al iniciar sesión'); // Maneja errores
