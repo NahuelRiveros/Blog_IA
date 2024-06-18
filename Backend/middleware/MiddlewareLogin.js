@@ -2,16 +2,15 @@ import jwt from 'jsonwebtoken';
 
 const authenticateToken = (req, res, next) => {
   const authHeader = req.headers['authorization'];
-
   if (!authHeader) {
-    return res.status(401).json({ message: 'Token no proporcionado' });
+    return res.status(401).json({ message: 'Token no proporcionado 1' });
   }
 
   // Extrae el token usando substring()
   const token = authHeader.substring(7); // "Bearer ".length === 7 
 
   if (!token) {
-    return res.status(401).json({ message: 'Token no proporcionado' });
+    return res.status(401).json({ message: 'Token no proporcionado 2' });
   }
 
   jwt.verify(token, 'secreto_super_seguro', (err, user) => {

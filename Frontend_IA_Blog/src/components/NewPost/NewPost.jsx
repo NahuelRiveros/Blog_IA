@@ -1,23 +1,27 @@
 import React from "react";
 import { Formik, Form, Field, ErrorMessage } from "formik";
+import { useNavigate, Link } from 'react-router-dom';
 import * as Yup from "yup";
+import axios from 'axios';
 
 const NewPost = () => {
   const initialValues = {
-    id: 1,
-    nombre: "",
-    objetivos: "",
-    linkDeAcceso: "",
-    ventajas: "",
-    limitaciones: "",
-    tipoDeLicencia: "",
-    anoDeLanzamiento: "",
-    autor: "",
-    imagen: "",
-    createdAt: new Date().toISOString(),
-    linkVideo: "",
-    tags: [],
-  };
+    nombre: "Raulito asdasdasdasasds",
+    objetivo: "alo", 
+    link: "https://www.youtube.com/watch?v=dQw4w9WgXcQ", 
+    ventaja: "Es muy lindo", 
+    limitacion: "Es muy feo", 
+    tipoLicencia: "Nose", 
+    añoLanz: 2022, 
+    autorRef: "Cosme Fulanito", 
+    compromisoUso: "Uso Compromiso", 
+    descripcion: "Descripsao", 
+    linkVid: "https://www.youtube.com/watch?v=dQw4w9WgXcQ"
+    // imagen: "", //asd
+    // ejemplo: "", //asd
+    // tags: [], //asd
+};
+
 
   const tags = [
     { id: 1, name: "Artificial Intelligence" },
@@ -32,36 +36,40 @@ const NewPost = () => {
 
   const validationSchema = Yup.object().shape({
     nombre: Yup.string().required("El nombre es obligatorio"),
-    objetivos: Yup.string().required("Los objetivos son obligatorios"),
-    linkDeAcceso: Yup.string()
-      .url("Ingresa una URL válida")
-      .required("El enlace de acceso es obligatorio"),
-    ventajas: Yup.string().required("Las ventajas son obligatorias"),
-    limitaciones: Yup.string().required("Las limitaciones son obligatorias"),
-    tipoDeLicencia: Yup.string().required("El tipo de licencia es obligatorio"),
-    anoDeLanzamiento: Yup.number()
-      .required("El año es obligatorio")
-      .min(1900, "Debe ser mayor a 1900")
-      .max(2024, "Debe ser menor 2025"),
-    autor: Yup.string().required("El autor es obligatorio"),
-    linkVideo: Yup.string()
-      .url("Ingresa una URL válida")
-      .required("El enlace del video es obligatorio"),
-    tags: Yup.array().min(1, "Debes seleccionar al menos una tag"),
+    objetivo: Yup.string().required("El objetivo es obligatorio"),
+    link: Yup.string()
+    .url("Ingresa una URL válida")
+    .required("El enlace de acceso es obligatorio"),
+    ventaja: Yup.string().required("Las ventajas son obligatorias"),
+    limitacion: Yup.string().required("Las limitaciones son obligatorias"),
+    tipoLicencia: Yup.string().required("El tipo de licencia es obligatorio"),
+    añoLanz: Yup.number()
+    .required("El año es obligatorio")
+    .min(1900, "Debe ser mayor a 1900")
+    .max(2024, "Debe ser menor 2025"),
+    autorRef: Yup.string().required("El autor es obligatorio"),
+    compromisoUso: Yup.string().required("El compromiso de uso es obligatorio"),
+    descripcion: Yup.string().required("La descripción es obligatoria"),
+    linkVid: Yup.string()
+    .url("Ingresa una URL válida")
+    .required("El enlace del video es obligatorio"),
   });
 
   const handleSubmit = async (values) => {
     try {
-      const  resRegistIA = await axios.post('http://localhost:8000/api/newIA', values);
+      const  resRegistIA = await axios.post('http://localhost:8000/api/newIA', values, {
+        headers: {
+          Authorization:`Bearer ${localStorage?.getItem("token")}`
+        }
+      });
+      alert(resRegistIA.data.msg)
+      // Redirige a la página de inicio o al perfil después de registrar
+      // navigate("/")
     } catch(err) {
-
+      console.error('Error al registrar:', err);
     }
-
-
-
-    
   };
-
+// 
   return (
     <div className="bg-gray-200 p-6">
 
@@ -98,19 +106,19 @@ const NewPost = () => {
 
             <div className="">
               <label
-                htmlFor="objetivos"
+                htmlFor="objetivo"
                 className="block text-sm font-medium text-gray-700"
               >
                 Objetivos IA
               </label>
               <Field
-                id="objetivos"
-                name="objetivos"
+                id="objetivo"
+                name="objetivo"
                 as="textarea"
                 className="mt-1 border block w-full h-24 border-gray-300 rounded-md shadow-sm focus:border-indigo-500 focus:ring-indigo-500 sm:text-sm resize-none"
               />
               <ErrorMessage
-                name="objetivos"
+                name="objetivo"
                 component="div"
                 className="text-red-600 text-sm mt-1"
               />
@@ -118,19 +126,19 @@ const NewPost = () => {
 
             <div className="">
               <label
-                htmlFor="linkDeAcceso"
+                htmlFor="link"
                 className="block text-sm font-medium text-gray-700"
               >
                 Enlace de Acceso
               </label>
               <Field
-                id="linkDeAcceso"
-                name="linkDeAcceso"
+                id="link"
+                name="link"
                 type="url"
                 className="mt-1 border block w-full  h-10 border-gray-300 rounded-md shadow-sm focus:border-indigo-500 focus:ring-indigo-500 sm:text-sm"
               />
               <ErrorMessage
-                name="linkDeAcceso"
+                name="link"
                 component="div"
                 className="text-red-600 text-sm mt-1"
               />
@@ -138,19 +146,19 @@ const NewPost = () => {
 
             <div className="">
               <label
-                htmlFor="ventajas"
+                htmlFor="ventaja"
                 className="block text-sm font-medium text-gray-700"
               >
                 Ventajas
               </label>
               <Field
-                id="ventajas"
-                name="ventajas"
+                id="ventaja"
+                name="ventaja"
                 as="textarea"
                 className="mt-1 border block w-full h-24 border-gray-300 rounded-md shadow-sm focus:border-indigo-500 focus:ring-indigo-500 sm:text-sm resize-none"
               />
               <ErrorMessage
-                name="ventajas"
+                name="ventaja"
                 component="div"
                 className="text-red-600 text-sm mt-1"
               />
@@ -158,19 +166,19 @@ const NewPost = () => {
 
             <div className="">
               <label
-                htmlFor="limitaciones"
+                htmlFor="limitacion"
                 className="block text-sm font-medium text-gray-700"
               >
                 Limitaciones
               </label>
               <Field
-                id="limitaciones"
-                name="limitaciones"
+                id="limitacion"
+                name="limitacion"
                 as="textarea"
                 className="mt-1 border block w-full h-24 border-gray-300 rounded-md shadow-sm focus:border-indigo-500 focus:ring-indigo-500 sm:text-sm resize-none"
               />
               <ErrorMessage
-                name="limitaciones"
+                name="limitacion"
                 component="div"
                 className="text-red-600 text-sm mt-1"
               />
@@ -180,19 +188,19 @@ const NewPost = () => {
             <div className="flex gap-5 items-center justify-center mb-4">
               <div className="flex flex-col items-center w-1/3">
                 <label
-                  htmlFor="tipoDeLicencia"
+                  htmlFor="tipoLicencia"
                   className="block text-sm font-medium text-gray-700 mb-1"
                 >
                   Tipo de Licencia
                 </label>
                 <Field
-                  id="tipoDeLicencia"
-                  name="tipoDeLicencia"
+                  id="tipoLicencia"
+                  name="tipoLicencia"
                   type="text"
                   className="mt-1 border block w-full h-10 px-3 border-gray-300 rounded-md shadow-sm focus:border-indigo-500 focus:ring-indigo-500 sm:text-sm"
                 />
                 <ErrorMessage
-                  name="tipoDeLicencia"
+                  name="tipoLicencia"
                   component="div"
                   className="text-red-600 text-sm inline-block min-h-[1.25rem]"
                 />
@@ -200,19 +208,19 @@ const NewPost = () => {
 
               <div className="flex flex-col items-center">
                 <label
-                  htmlFor="anoDeLanzamiento"
+                  htmlFor="añoLanz"
                   className="block text-sm font-medium text-gray-700 mb-1"
                 >
                   Año de Lanzamiento
                 </label>
                 <Field
-                  id="anoDeLanzamiento"
-                  name="anoDeLanzamiento"
+                  id="añoLanz"
+                  name="añoLanz"
                   type="number"
                   className="mt-1 border block w-36 h-10 px-3 border-gray-300 rounded-md shadow-sm focus:border-indigo-500 focus:ring-indigo-500 sm:text-sm"
                 />
                 <ErrorMessage
-                  name="anoDeLanzamiento"
+                  name="añoLanz"
                   component="div"
                   className="text-red-600 text-sm inline-block min-h-[1.25rem]"
                 />
@@ -220,19 +228,19 @@ const NewPost = () => {
 
               <div className="flex flex-col items-center w-72">
                 <label
-                  htmlFor="autor"
+                  htmlFor="autorRef"
                   className="block text-sm font-medium text-gray-700 mb-1"
                 >
                   Autor
                 </label>
                 <Field
-                  id="autor"
-                  name="autor"
+                  id="autorRef"
+                  name="autorRef"
                   type="text"
                   className="mt-1 border block w-full h-10 px-3 border-gray-300 rounded-md shadow-sm focus:border-indigo-500 focus:ring-indigo-500 sm:text-sm"
                 />
                 <ErrorMessage
-                  name="autor"
+                  name="autorRef"
                   component="div"
                   className="text-red-600 text-sm inline-block min-h-[1.25rem]"
                 />
@@ -266,19 +274,59 @@ const NewPost = () => {
 
             <div className="">
               <label
-                htmlFor="linkVideo"
+                htmlFor="compromisoUso"
+                className="block text-sm font-medium text-gray-700"
+              >
+                Compromiso de Uso
+              </label>
+              <Field
+                id="compromisoUso"
+                name="compromisoUso"
+                type="text"
+                className="mt-1 border block w-full h-10  border-gray-300 rounded-md shadow-sm focus:border-indigo-500 focus:ring-indigo-500 sm:text-sm"
+              />
+              <ErrorMessage
+                name="compromisoUso"
+                component="div"
+                className="text-red-600 text-sm mt-1"
+              />
+            </div>
+
+            <div className="">
+              <label
+                htmlFor="descripcion"
+                className="block text-sm font-medium text-gray-700"
+              >
+                Descripcion
+              </label>
+              <Field
+                id="descripcion"
+                name="descripcion"
+                as="textarea"
+                className="mt-1 border block w-full h-24 border-gray-300 rounded-md shadow-sm focus:border-indigo-500 focus:ring-indigo-500 sm:text-sm resize-none"
+              />
+              <ErrorMessage
+                name="descripcion"
+                component="div"
+                className="text-red-600 text-sm mt-1"
+              />
+            </div>
+
+            <div className="">
+              <label
+                htmlFor="linkVid"
                 className="block text-sm font-medium text-gray-700"
               >
                 Enlace del Video
               </label>
               <Field
-                id="linkVideo"
-                name="linkVideo"
+                id="linkVid"
+                name="linkVid"
                 type="url"
                 className="mt-1 border block w-full h-10 border-gray-300 rounded-md shadow-sm focus:border-indigo-500 focus:ring-indigo-500 sm:text-sm"
               />
               <ErrorMessage
-                name="linkVideo"
+                name="linkVid"
                 component="div"
                 className="text-red-600 text-sm mt-1"
               />
@@ -289,12 +337,12 @@ const NewPost = () => {
                 Tags
               </label>
               <div className="flex flex-wrap gap-2 mt-2">
-                {tags.map((tag) => (
+                {tags?.map((tag) => ( 
                   <button
                     key={tag.id}
                     type="button"
                     onClick={() => {
-                      const isSelected = values.tags.includes(tag.name);
+                      const isSelected = values?.tags?.includes(tag.name);
                       if (isSelected) {
                         setFieldValue(
                           "tags",
@@ -305,7 +353,7 @@ const NewPost = () => {
                       }
                     }}
                     className={`py-1 px-3 rounded-full ${
-                      values.tags.includes(tag.name)
+                      values?.tags?.includes(tag.name)
                         ? "bg-indigo-600 text-white"
                         : "bg-gray-200 text-gray-700"
                     }`}
@@ -326,7 +374,7 @@ const NewPost = () => {
                 Tags Seleccionados
               </label>
               <div className="flex flex-wrap gap-2 mt-2">
-                {values.tags.map((tag, index) => (
+                {values?.tags?.map((tag, index) => ( 
                   <div
                     key={index}
                     className="flex items-center bg-green-200 text-green-700 rounded-full px-3 py-1"
