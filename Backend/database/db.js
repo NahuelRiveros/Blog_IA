@@ -3,8 +3,8 @@ import Sequelize from "sequelize";
 const db = new Sequelize(
     "IABlog", 
     "postgres",
-    // "Hola1234",
-    "123456789",
+    "Hola1234",
+    //"123456789",
     {
     host: "localhost",
     dialect:
@@ -48,15 +48,24 @@ createTables();
 
 //         // Insertar temas
 //         await tbTemas.bulkCreate([
-//             { nombreTema: 'Tema 1' },
-//             { nombreTema: 'Tema 2' }
+//             { nombreTema: 'Ética' }, 
+//             { nombreTema: 'Sesgo' }, 
+//             { nombreTema: 'Beneficios' }, 
+//             { nombreTema: 'Polémica' }, 
+//             { nombreTema: 'Futuro' }
 //         ]);
 
-//         // Insertar tags
-//         await tbTags.bulkCreate([
-//             { nombreTag: 'Tag 1' },
-//             { nombreTag: 'Tag 2' }
-//         ]);
+//          // Insertar Tags
+//          await tbTags.bulkCreaate([
+//             { nombreTag: 'Artificial Intelligence' }, 
+//             { nombreTag: 'Robotics' }, 
+//             { nombreTag: 'Machine Learning' },
+//             { nombreTag: 'Autonomous' }, 
+//             { nombreTag: 'Problem Solving' }, 
+//             { nombreTag: 'Deep Learning' }, 
+//             { nombreTag: 'Cybernetics' }, 
+//             { nombreTag: 'Neural Networks' }
+//          ]);
 
 //         // Insertar inteligencia artificial
 //         await tbInteligenciaArtificial.bulkCreate([
@@ -110,6 +119,7 @@ createTables();
 //             { idUsuario: 2, idDebate: 2, tituloComentario: 'Comentario 2', descripcionComentario: 'Descripción Comentario 2', fechaComentario: new Date(), votoPositivo: 5, votoNegativo: 1 }
 //         ]);
 
+
 //         console.log('Datos de ejemplo insertados correctamente');
 //     } catch (error) {
 //         console.error('Error insertando datos de ejemplo:', error);
@@ -117,6 +127,5 @@ createTables();
 // };
 
 // insertSampleData();
-
 
 export default db;

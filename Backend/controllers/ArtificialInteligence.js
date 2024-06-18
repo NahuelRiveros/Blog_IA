@@ -3,8 +3,11 @@ import { tbInteligenciaArtificial, tbDebates } from "../Modules/module.js";
 
 export const registroInteligenciaArtificial = async (req, res) => {
     try {
+        
         const { nombre, objetivo, link, ventaja, limitacion, tipoLicencia, añoLanz, autorRef, compromisoUso, descripcion, linkVid } = req.body
-        const creandoIntArt = await tbInteligenciaArtificial.create({ nombreIntArt: nombre, objetivoIntArt: objetivo, linkIntArt: link, ventajaIntArt: ventaja, limitacionIntArt: limitacion, tipoLicenciaIntArt: tipoLicencia, añoLanzamientoIntArt: añoLanz, autorReferencia: autorRef, compromisoUsoIntArt: compromisoUso, descripcionIntArt: descripcion, linkVideoIntArt: linkVid, puntuacionGeneralIntArt:0 })
+        console.log({"dato body":req.body})
+        const creandoIntArt = await tbInteligenciaArtificial.create({nombreIntArt: nombre, objetivoIntArt: objetivo, linkIntArt: link, ventajaIntArt: ventaja, limitacionIntArt: limitacion, tipoLicenciaIntArt: tipoLicencia, añoLanzamientoIntArt: añoLanz, autorReferencia: autorRef, compromisoUsoIntArt: compromisoUso, descripcionIntArt: descripcion, linkVideoIntArt: linkVid, puntuacionGeneralIntArt:0 })
+        console.log(creandoIntArt)
         res.json({ msg: "Creado correctamente" })
     } catch (err) {
         res.json({ error: err.message })
