@@ -50,10 +50,16 @@ const NewPost = () => {
     tags: Yup.array().min(1, "Debes seleccionar al menos una tag"),
   });
 
-  const handleSubmit = (values) => {
+  const handleSubmit = async (values) => {
     try {
-      const  resRegistIA = await axios.post('http://localhost:8000/api/register', values);
+      const  resRegistIA = await axios.post('http://localhost:8000/api/newIA', values);
+    } catch(err) {
+
     }
+
+
+
+    
   };
 
   return (
