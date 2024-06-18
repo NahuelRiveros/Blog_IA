@@ -201,10 +201,6 @@ export const tbDebates = db.define(
             type: DataTypes.STRING(200),
             allowNull: false,
         },
-        fechaDebate: {
-            type: DataTypes.DATE,
-            allowNull: false,
-        },
     },
     { freezeTableName: true }
 );
