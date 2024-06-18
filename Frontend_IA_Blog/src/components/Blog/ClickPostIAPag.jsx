@@ -150,7 +150,7 @@ const PostIAPag = () => {
         </h3>
         <div className="bg-gray-100 p-4 rounded-b-lg">
           {/* Aquí puedes insertar el componente de comentarios */}
-          <CommentSection />
+          <CommentSection idPost={post.id}/>
         </div>
       </div>
     </div>

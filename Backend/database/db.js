@@ -20,18 +20,18 @@ async function createTables() {
     } catch (error) {
         console.error("Error al crear las tablas:", error);
     }
-    // finally {
-    //     db.close();
-    // }
+    finally {
+        db.close();
+    }
 }; 
 
 createTables();
 
-// import db from "../database/db.js";
 
 
 
-//EL CODIGO DE ABAJO, SE DESCOMENTA SOLO PARA CREAR DATOS DE EJEMPLO PAR LA PRUEBA DE LA BASE DE DATOS
+
+// EL CODIGO DE ABAJO, SE DESCOMENTA SOLO PARA CREAR DATOS DE EJEMPLO PAR LA PRUEBA DE LA BASE DE DATOS
 
 
 // import { tbRol, tbTemas, tbTags, tbImagenIntArt, tbEjemploIntArt, tbUsuarios, tbComentarios, tbDebates, tbInteligenciaArtificial, tbTagsIntArt, tbUsuarioVotoInt, tbUsuarioVotoComentario } from '../Modules/module.js'; // Asegúrate de ajustar la ruta de importación

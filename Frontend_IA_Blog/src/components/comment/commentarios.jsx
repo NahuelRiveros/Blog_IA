@@ -3,7 +3,7 @@ import { useFormik } from 'formik';
 import * as Yup from 'yup';
 import axios from 'axios';
 
-const CommentSection = () => {
+const CommentSection = ({ idPost }) => {
   const [comments, setComments] = useState([]);
   const [userVotes, setUserVotes] = useState({});
 
@@ -11,7 +11,7 @@ const CommentSection = () => {
     // Función para cargar los comentarios desde el backend al inicio
     const fetchComments = async () => {
       try {
-        const response = await axios.get('/api/comments'); 
+        const response = await axios.get('http://localhost:8000/api/comments'); 
         if (Array.isArray(response.data)) {
           setComments(response.data); // Asume que el backend devuelve un array de comentarios
         } else {
@@ -32,20 +32,30 @@ const CommentSection = () => {
   }, [userVotes]);
 
 
-
-  const formik = useFormik({
+  // Formik for the new comment form
+  const createDebate = useFormik({
     initialValues: {
-      text: '',
+      title: '',
+      content: '',
     },
+    validationSchema: Yup.object({
+      title: Yup.string().required('El título es obligatorio'),
+      content: Yup.string().required('El contenido es obligatorio'),
+    }),
     onSubmit: async (values, { resetForm }) => {
       try {
-        console.log('Enviando comentario:', values.text);
+        console.log('Enviando comentario:', values);
+        const fechaDebate = new Date().toLocaleDateString('es-ES');
+        const response = await axios.post('http://localhost:8000/api/debate', {
+          title: values.title,
+          content: values.content,
+          id: idPost, // Include the idPost here
+          date: fechaDebate
+        });
 
-        const response = await axios.post('/api/comments', { text: values.text });
-        const newCommentObj = response.data; // Suponiendo que el backend devuelve el comentario creado con un ID generado
+        const newCommentObj = response.data;
         setComments([...comments, newCommentObj]);
         resetForm();
-
       } catch (error) {
         console.error('Error adding comment:', error);
       }
@@ -67,58 +77,53 @@ const CommentSection = () => {
     <div className="comment-section bg-white rounded-lg shadow-md p-4">
       <h2 className="text-2xl font-bold mb-4 text-gray-800">Comentarios</h2>
 
-      <form onSubmit={formik.handleSubmit}>
-        <div className="comment-form flex items-center mb-4">
-          <textarea
-            id="text"
-            name="text"
-            value={formik.values.text}
-            onChange={formik.handleChange}
-            onBlur={formik.handleBlur}
-            placeholder="Escribe tu comentario..."
-            className="w-full rounded-lg border px-3 py-2 focus:outline-none focus:border-blue-500"
+      {/* New comment form */}
+      <form onSubmit={createDebate.handleSubmit}>
+        <div className="mb-4">
+          <label htmlFor="title" className="block text-gray-700 text-sm font-bold mb-2">
+            Título:
+          </label>
+          <input
+            type="text"
+            id="title"
+            name="title"
+            value={createDebate.values.title}
+            onChange={createDebate.handleChange}
+            onBlur={createDebate.handleBlur}
+            className="shadow appearance-none border rounded w-full py-2 px-3 text-gray-700 leading-tight focus:outline-none focus:shadow-outline"
           />
+          {createDebate.touched.title && createDebate.errors.title ? (
+            <p className="text-red-500 text-xs italic">{createDebate.errors.title}</p>
+          ) : null}
+        </div>
+
+        <div className="mb-4">
+          <label htmlFor="content" className="block text-gray-700 text-sm font-bold mb-2">
+            Contenido:
+          </label>
+          <textarea
+            id="content"
+            name="content"
+            value={createDebate.values.content}
+            onChange={createDebate.handleChange}
+            onBlur={createDebate.handleBlur}
+            className="shadow appearance-none border rounded w-full py-2 px-3 text-gray-700 leading-tight focus:outline-none focus:shadow-outline"
+          />
+          {createDebate.touched.content && createDebate.errors.content ? (
+            <p className="text-red-500 text-xs italic">{createDebate.errors.content}</p>
+          ) : null}
+        </div>
+
+        <div className="flex items-center justify-center">
           <button
             type="submit"
-            className="bg-blue-500 hover:bg-blue-700 text-white font-bold py-2 px-4 rounded-lg ml-2"
+            className="bg-blue-500 hover:bg-blue-700 text-white font-bold py-2 px-4 rounded focus:outline-none focus-shadow-outline"
           >
-            Agregar Comentario
+            Enviar Comentario
           </button>
         </div>
-        {formik.touched.text && formik.errors.text ? (
-          <div className="text-red-500">{formik.errors.text}</div>
-        ) : null}
       </form>
-
-      <ul className="comment-list">
-        {comments.length > 0 ? (
-          comments.map((comment) => (
-            <li key={comment.id} className="comment-item mb-4 rounded-lg bg-gray-100 p-3">
-              <div className="flex items-center mb-2">
-                <p className="text-gray-800 font-medium">{comment.text}</p>
-              </div>
-              <div className="vote-buttons flex items-center">
-                <button
-                  onClick={() => handleVote(comment.id, 'like')}
-                  className="bg-green-500 hover:bg-green-700 text-white font-bold py-1 px-2 rounded-lg mr-2"
-                >
-                  👍 {comment.likes}
-                </button>
-                <button
-                  onClick={() => handleVote(comment.id, 'dislike')}
-                  className="bg-red-500 hover:bg-red-700 text-white font-bold py-1 px-2 rounded-lg"
-                >
-                  👎 {comment.dislikes}
-                </button>
-              </div>
-            </li>
-          ))
-        ) : (
-          <li className="comment-item mb-4 rounded-lg bg-gray-100 p-3">
-            <p className="text-gray-800">No hay comentarios.</p>
-          </li>
-        )}
-      </ul>
+      
     </div>
   );
 };

@@ -3,11 +3,18 @@ import { tbDebates, tbTemas, tbComentarios, tbInteligenciaArtificial } from "../
 
 export const registroDebate = async (req, res) => {
     try {
-        const { tema, IntArt, titulo, fecha } = req.body
-        const creandoDebate = await tbDebates.create({ idTema: tema, idIntArt: IntArt, tituloDebate: titulo, fechaDebate: fecha })
+        
+        const {id, title, content, date } = req.body; // Obtén todos los datos del cuerpo de la solicitud
+        console.log(id, title, content, date)
+      if ( !id || !title || !content || !date) {
+        return res.status(400).json({ error: 'Faltan datos obligatorios' });
+      }
+
+        const creandoDebate = await tbDebates.create({ idIntArt: id, idTema: content,  tituloDebate: title , fechaDebate : date })
         res.json({ msg: "Creado correctamente" })
     } catch (err) {
-        res.json({ error: err.message })
+        console.error('Error al crear el debate:', err);
+        res.status(500).json({ error: err.message });
     }
 }
 

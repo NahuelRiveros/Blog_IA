@@ -15,10 +15,11 @@ const routerBlog = express.Router();
 routerBlog.post('/login', Login)
 routerBlog.get('/getUser/:id',authenticateToken, getUser);
 routerBlog.get('/obtainIntArt/:id',authenticateToken, getIntArt);
-
 routerBlog.post('/register',registroUsuario)
 routerBlog.post('/posts/:postId/vote',authenticateToken,createVote)
 routerBlog.post('/newIA',authenticateToken,registroInteligenciaArtificial)
+
+//DEBATE
 routerBlog.post('/debate',registroDebate)
 routerBlog.get('/debateGet/:id', getDebate)
 routerBlog.post('/comment',registroComentario)
