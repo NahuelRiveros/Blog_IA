@@ -6,72 +6,109 @@ const CommentSection = () => {
     const [userVotes, setUserVotes] = useState({});
 
     // Carga los votos del usuario desde localStorage al inicio
+  // useEffect(() => {
+  //   const storedVotes = localStorage.getItem('userVotes');
+  //   if (storedVotes) {
+  //     setUserVotes(JSON.parse(storedVotes));
+  //   }
+  // }, []);
   useEffect(() => {
-    const storedVotes = localStorage.getItem('userVotes');
-    if (storedVotes) {
-      setUserVotes(JSON.parse(storedVotes));
-    }
+    
+    // Función para cargar los comentarios desde el backend
+    const fetchComments = async () => {
+      try {
+        const response = await axios.get('/api/comments'); // Reemplaza '/api/comments' con tu endpoint real
+        setComments(response.data); // Asume que el backend devuelve un array de comentarios
+      } catch (error) {
+        console.error('Error fetching comments:', error);
+      }
+    };
+
+    fetchComments();
   }, []);
   // Guarda los votos del usuario en localStorage cada vez que cambia
   useEffect(() => {
     localStorage.setItem('userVotes', JSON.stringify(userVotes));
   }, [userVotes]);
+ 
   const handleCommentChange = (event) => {
     setNewComment(event.target.value);
   };
 
-  const addComment = () => {
-    if (newComment.trim() !== '') {
-      const newCommentObj = {
-        id: Date.now(),
-        text: newComment,
-        likes: 0,
-        dislikes: 0,
-      };
+  // const addComment = () => {
+  //   if (newComment.trim() !== '') {
+  //     const newCommentObj = {
+  //       id: Date.now(),
+  //       text: newComment,
+  //       likes: 0,
+  //       dislikes: 0,
+  //     };
 
-      setComments([...comments, newCommentObj]);
-      setNewComment('');
+  //     setComments([...comments, newCommentObj]);
+  //     setNewComment('');
+  //   }
+  // };
+  const addComment = async () => {
+    if (newComment.trim() !== '') {
+      try {
+        const response = await axios.post('/api/comments', { text: newComment }); // Envia el nuevo comentario al backend
+        const newCommentObj = response.data; // Suponiendo que el backend devuelve el comentario creado con un ID generado
+        setComments([...comments, newCommentObj]);
+        setNewComment('');
+      } catch (error) {
+        console.error('Error adding comment:', error);
+      }
     }
   };
 
-  const handleVote = (commentId, voteType) => {
-    // Verifica si el usuario ya votó por este comentario
-    if (userVotes[commentId] && userVotes[commentId] !== voteType) {
-      // Si ya votó, pero con el tipo opuesto, cambia el voto
-      setComments(comments.map((comment) => {
-        if (comment.id === commentId) {
-          if (voteType === 'like') {
-            return {
-              ...comment,
-              likes: comment.likes + 1,
-              dislikes: comment.dislikes - 1,
-            };
-          } else if (voteType === 'dislike') {
-            return {
-              ...comment,
-              dislikes: comment.dislikes + 1,
-              likes: comment.likes - 1,
-            };
-          }
-        }
-        return comment;
-      }));
-    } else if (!userVotes[commentId]) {
-      // Si no ha votado, realiza el voto
-      setComments(comments.map((comment) => {
-        if (comment.id === commentId) {
-          if (voteType === 'like') {
-            return { ...comment, likes: comment.likes + 1 };
-          } else if (voteType === 'dislike') {
-            return { ...comment, dislikes: comment.dislikes + 1 };
-          }
-        }
-        return comment;
-      }));
-    }
+  // const handleVote = (commentId, voteType) => {
+  //   // Verifica si el usuario ya votó por este comentario
+  //   if (userVotes[commentId] && userVotes[commentId] !== voteType) {
+  //     // Si ya votó, pero con el tipo opuesto, cambia el voto
+  //     setComments(comments.map((comment) => {
+  //       if (comment.id === commentId) {
+  //         if (voteType === 'like') {
+  //           return {
+  //             ...comment,
+  //             likes: comment.likes + 1,
+  //             dislikes: comment.dislikes - 1,
+  //           };
+  //         } else if (voteType === 'dislike') {
+  //           return {
+  //             ...comment,
+  //             dislikes: comment.dislikes + 1,
+  //             likes: comment.likes - 1,
+  //           };
+  //         }
+  //       }
+  //       return comment;
+  //     }));
+  //   } else if (!userVotes[commentId]) {
+  //     // Si no ha votado, realiza el voto
+  //     setComments(comments.map((comment) => {
+  //       if (comment.id === commentId) {
+  //         if (voteType === 'like') {
+  //           return { ...comment, likes: comment.likes + 1 };
+  //         } else if (voteType === 'dislike') {
+  //           return { ...comment, dislikes: comment.dislikes + 1 };
+  //         }
+  //       }
+  //       return comment;
+  //     }));
+  //   }
 
-    // Actualiza el estado de userVotes para registrar el voto
-    setUserVotes({ ...userVotes, [commentId]: voteType });
+  //   // Actualiza el estado de userVotes para registrar el voto
+  //   setUserVotes({ ...userVotes, [commentId]: voteType });
+  // };
+  const handleVote = async (commentId, voteType) => {
+    try {
+      const response = await axios.put(`/api/comments/${commentId}/vote`, { voteType }); // Envia el voto al backend
+      const updatedComment = response.data; // Suponiendo que el backend devuelve el comentario actualizado con votos
+      setComments(comments.map(comment => comment.id === commentId ? updatedComment : comment));
+      setUserVotes({ ...userVotes, [commentId]: voteType });
+    } catch (error) {
+      console.error('Error voting:', error);
+    }
   };
 
   

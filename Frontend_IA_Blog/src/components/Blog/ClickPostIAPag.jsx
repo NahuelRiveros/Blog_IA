@@ -3,7 +3,7 @@ import { useLocation, useNavigate } from "react-router-dom";
 import { IoReturnDownBackOutline } from "react-icons/io5";
 import { FaStar, FaStarHalfAlt } from "react-icons/fa";
 import { AiOutlineVideoCamera, AiOutlineLogin } from "react-icons/ai"; // Importa los iconos de Ant Design Icons
-import CommentSection from "../comment/Comment";
+import CommentSection from "../comment/commentarios";
 import PostVote from "../Vote/PostVote";
 
 const PostIAPag = () => {

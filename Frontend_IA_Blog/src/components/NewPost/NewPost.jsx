@@ -52,6 +52,10 @@ const NewPost = () => {
 
   const handleSubmit = (values) => {
     console.log("Datos del formulario:", values);
+
+
+
+    
   };
 
   return (
