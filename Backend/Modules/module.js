@@ -433,9 +433,6 @@ tbUsuarioVotoInt.addHook('afterCreate', async (voto, options) => {
 //     }
 //   });
 
-
-
-
 // const datosRoles = [
 //     { idrol:1, nombreRol: 'Administrador' }, { idrol:2, nombreRol: 'Usuario' }
 // ]

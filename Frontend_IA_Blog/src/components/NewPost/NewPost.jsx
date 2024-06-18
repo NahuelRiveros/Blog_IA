@@ -51,7 +51,9 @@ const NewPost = () => {
   });
 
   const handleSubmit = (values) => {
-    console.log("Datos del formulario:", values);
+    try {
+      const  resRegistIA = await axios.post('http://localhost:8000/api/register', values);
+    }
   };
 
   return (
